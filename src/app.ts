@@ -17,7 +17,7 @@ app.use(async (req, res) => {
   };
 
   try {
-    await fetchService(fetchServiceRequest);
+    res.send(await fetchService(fetchServiceRequest));
   } catch (error) {}
 });
 

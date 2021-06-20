@@ -6,6 +6,11 @@
   "scripts": {
     "build": "tsc --project ./",
     "start": "node dist/app.js",
+    "dockerize": "npm run docker-stop && npm run docker-rm && npm run docker-build && npm run docker-run",
+    "docker-stop": "docker stop apigateway || rem",
+    "docker-rm": "docker rm apigateway || rem",
+    "docker-build": "docker build -t apigateway .",
+    "docker-run": "docker run -d -p 3000:3000 --name apigateway apigateway",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
