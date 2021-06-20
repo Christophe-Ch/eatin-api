@@ -1,0 +1,33 @@
+{
+  "name": "ubereats-api",
+  "version": "1.0.0",
+  "description": "API with microservices as submodules",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --project ./",
+    "start": "node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Christophe-Ch/ubereats-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Christophe-Ch/ubereats-api/issues"
+  },
+  "homepage": "https://github.com/Christophe-Ch/ubereats-api#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.2",
+    "@types/express": "^4.17.12",
+    "@types/node": "^15.12.2",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
+  }
+}
