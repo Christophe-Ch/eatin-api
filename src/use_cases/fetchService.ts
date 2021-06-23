@@ -8,7 +8,7 @@ export default async (request: FetchServiceRequest) => {
     throw new ServiceNotFoundError();
   }
 
-  let serviceRoles = process.env[`GATEWAY_ROUTE_${service.toUpperCase()}`];
+  let serviceRoles = process.env[`SERVICE_CONFIG_${service.toUpperCase()}`];
 
   if (!serviceRoles) {
     throw new ServiceNotFoundError();
