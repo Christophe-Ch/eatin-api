@@ -6,18 +6,21 @@ import NotAuthorizedError from "../types/errors/notAuthorizedError";
 export default async (request: FetchServiceRequest) => {
   const service = request.path.split("/")[2];
   const serviceRoutes = process.env[`SERVICE_CONFIG_${service.toUpperCase()}`];
+
   if (!serviceRoutes) {
     throw new ServiceNotFoundError();
   }
 
   const routes = <any[]>JSON.parse(serviceRoutes);
-  const route = routes.find(route => (new RegExp(route.path)).test(request.path));
+  const route = routes.find(route => (new RegExp(`/api/${service}${route.path}`)).test(request.path));
 
-  if(!route) {
+  console.log(route);
+
+  if (!route) {
     throw new ServiceNotFoundError();
   }
 
-  if(route.roles && (!request.token || !jwtService.hasRoles(request.token, route.roles))) {
+  if (route.roles && (!request.token || !jwtService.hasRoles(request.token, route.roles))) {
     throw new NotAuthorizedError();
   }
 
