@@ -22,6 +22,7 @@ app.use(async (req, res) => {
     headers: req.headers,
     body: req.body,
     method: req.method,
+    token: <string>req.headers.authorization
   };
 
   try {
