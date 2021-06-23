@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: api-gateway-configmap
+  name: api-configmap
 data:
   service1: |
     [

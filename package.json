@@ -12,6 +12,7 @@
     "docker-rm": "docker rm api-gateway || rem",
     "docker-build": "docker build -t api-gateway .",
     "docker-run": "docker run -d -p 3000:3000 --name api-gateway api-gateway",
+    "kube-clean": "kubectl delete deployment api-gateway-deployment && kubectl delete service api-gateway-service && kubectl delete configmap api-configmap",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

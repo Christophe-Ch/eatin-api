@@ -17,6 +17,8 @@ app.use(async (req, res) => {
     return res.status(400).send("Route should start with /api/");
   }
 
+  return res.send(process.env.JWT_TOKEN);
+
   const fetchServiceRequest: FetchServiceRequest = {
     path: req.path,
     headers: req.headers,
