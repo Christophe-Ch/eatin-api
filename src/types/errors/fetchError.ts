@@ -1,5 +1,5 @@
 export default abstract class FetchError extends Error {
-  code: number;
+  code: number = 400;
   details: any[];
 
   constructor(code: number, message: string, details: any[]) {

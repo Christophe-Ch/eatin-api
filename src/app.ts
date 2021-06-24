@@ -30,7 +30,7 @@ app.use(async (req, res) => {
     return res.send(await fetchService(fetchServiceRequest));
   } catch (error) {
     const fetchError: FetchError = error;
-    return res.status(fetchError.code).send({
+    return res.status(400).send({
       message: fetchError.message,
       details: fetchError.details,
     });
