@@ -21,7 +21,7 @@ spec:
           ports:
             - containerPort: 3000
           env:
-            - name: JWT_TOKEN
+            - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: api-secret
