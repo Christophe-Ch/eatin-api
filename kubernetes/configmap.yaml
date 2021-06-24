@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: api-configmap
 data:
-  service1: |
+  application: |
     [
-      { "path": "/", "roles": ["User"] }
+      { "path": "", "roles": ["DEV"], "method": "GET" }
     ]

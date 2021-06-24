@@ -8,11 +8,11 @@
     "start": "node dist/app.js",
     "build-start": "npm run build && npm start",
     "dockerize": "npm run docker-stop && npm run docker-rm && npm run docker-build",
-    "docker-stop": "docker stop api-gateway || rem",
-    "docker-rm": "docker rm api-gateway || rem",
-    "docker-build": "docker build -t api-gateway .",
-    "docker-run": "docker run -d -p 3000:3000 --name api-gateway api-gateway",
-    "kube-clean": "kubectl delete deployment api-gateway-deployment && kubectl delete service api-gateway-service && kubectl delete configmap api-configmap",
+    "docker-stop": "docker stop eatin-api || rem",
+    "docker-rm": "docker rm eatin-api || rem",
+    "docker-build": "docker build -t eatin-api .",
+    "docker-run": "docker run -d -p 3000:3000 --name eatin-api eatin-api",
+    "kube-clean": "kubectl delete deployment eatin-api-deployment && kubectl delete service eatin-api-service && kubectl delete configmap api-configmap",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,7 +30,9 @@
     "axios": "^0.21.1",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1"
+    "express-validator": "^6.12.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.14"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",

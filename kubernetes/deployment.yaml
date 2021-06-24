@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-gateway-deployment
+  name: eatin-api-deployment
   labels:
-    app: api-gateway
+    app: eatin-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api-gateway
+      app: eatin-api
   template:
     metadata:
       labels:
-        app: api-gateway
+        app: eatin-api
     spec:
       containers:
-        - name: api-gateway
-          image: api-gateway
+        - name: eatin-api
+          image: eatin-api
           imagePullPolicy: Never
           ports:
             - containerPort: 3000
@@ -25,21 +25,21 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: api-secret
-                  key: jwtSecret
-            - name: SERVICE_CONFIG_SERVICE1
+                  key: jwt-secret
+            - name: SERVICE_CONFIG_APPLICATION
               valueFrom:
                 configMapKeyRef:
                   name: api-configmap
-                  key: service1
+                  key: application
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-gateway-service
+  name: eatin-api-service
 spec:
   selector:
-    app: api-gateway
+    app: eatin-api
   type: LoadBalancer
   ports:
     - protocol: TCP

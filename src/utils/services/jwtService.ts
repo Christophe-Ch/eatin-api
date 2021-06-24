@@ -15,7 +15,7 @@ export default {
 
             return true;
         }
-        catch {
+        catch (err) {
             return false;
         }
     }
