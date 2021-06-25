@@ -6,7 +6,6 @@ import axios, { AxiosRequestConfig, Method } from "axios";
 import ServiceError from "../types/errors/serviceError";
 
 const checkAppToken = async (appToken: string) => {
-  // Check app token
   let result;
   try {
     result = await axios.get(
@@ -45,7 +44,7 @@ const findRoute = (
   const route = routes.find(
     (route) =>
       route.method == request.method &&
-      new RegExp(`/api/${service}${route.path}/?`).test(request.path)
+      new RegExp(`/api/${service}${route.path}/?$`).test(request.path)
   );
 
   if (!route) {
@@ -73,10 +72,13 @@ const sendRequest = async (
       url: `http://eatin-ms-${service}-service:3000/${
         request.path.split("/api/")[1]
       }`,
-      headers: {
-        user: JSON.stringify(user),
-      },
     };
+
+    if (user) {
+      requestParams.headers = {
+        user: JSON.stringify(user),
+      };
+    }
 
     if (["POST", "PUT"].indexOf(request.method) != -1) {
       requestParams.data = request.body;
@@ -94,19 +96,26 @@ export default async (request: FetchServiceRequest) => {
   try {
     await checkAppToken(request.appToken);
 
-    let user;
-    if (request.userToken) {
-      try {
-        user = jwtService.verifyAndRead(request.userToken);
-      } catch (err) {
-        throw new NotAuthorizedError();
-      }
-    }
-
     const { service, serviceRoutes } = findService(request);
     const route = findRoute(request, service, serviceRoutes);
-    if (route.roles) {
-      checkRoles(route, user);
+
+    console.log(route);
+
+    let user;
+    if (!route.anonymous) {
+      if (request.userToken) {
+        try {
+          user = jwtService.verifyAndRead(request.userToken);
+        } catch (err) {
+          throw new NotAuthorizedError();
+        }
+      } else {
+        throw new NotAuthorizedError();
+      }
+
+      if (route.roles) {
+        checkRoles(route, user);
+      }
     }
 
     return sendRequest(request, service, user);
