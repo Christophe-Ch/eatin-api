@@ -5,12 +5,12 @@ import NotAuthorizedError from "../types/errors/notAuthorizedError";
 import axios, { AxiosRequestConfig, Method } from "axios";
 import ServiceError from "../types/errors/serviceError";
 
-export default async (request: FetchServiceRequest) => {
+const checkAppToken = async (appToken: string) => {
   // Check app token
   let result;
   try {
     result = await axios.get(
-      `http://eatin-ms-application-service:3000/application?token=${request.appToken}`
+      `http://eatin-ms-application-service:3000/application?token=${appToken}`
     );
   } catch (error) {
     throw new ServiceError(400, "Application service not available.", []);
@@ -23,8 +23,9 @@ export default async (request: FetchServiceRequest) => {
   ) {
     throw new NotAuthorizedError();
   }
+};
 
-  // Find service
+const findService = (request: FetchServiceRequest) => {
   const service = request.path.split("/")[2].split("?")[0];
   const serviceRoutes = process.env[`SERVICE_CONFIG_${service.toUpperCase()}`];
 
@@ -32,7 +33,14 @@ export default async (request: FetchServiceRequest) => {
     throw new ServiceNotFoundError();
   }
 
-  // Find route
+  return { service, serviceRoutes };
+};
+
+const findRoute = (
+  request: FetchServiceRequest,
+  service: string,
+  serviceRoutes: string
+) => {
   const routes = <any[]>JSON.parse(serviceRoutes);
   const route = routes.find(
     (route) =>
@@ -44,16 +52,19 @@ export default async (request: FetchServiceRequest) => {
     throw new ServiceNotFoundError();
   }
 
-  // Check role if necessary
+  return route;
+};
+
+const checkRoles = (request: FetchServiceRequest, route: any) => {
   if (
-    route.roles &&
-    (!request.userToken ||
-      !jwtService.hasRoles(request.userToken.split("Bearer ")[1], route.roles))
+    !request.userToken ||
+    !jwtService.hasRoles(request.userToken.split("Bearer ")[1], route.roles)
   ) {
     throw new NotAuthorizedError();
   }
+};
 
-  // Send request
+const sendRequest = async (request: FetchServiceRequest, service: string) => {
   let serviceResult;
   try {
     const requestParams: AxiosRequestConfig = {
@@ -73,4 +84,20 @@ export default async (request: FetchServiceRequest) => {
   }
 
   return serviceResult.data;
+};
+
+export default async (request: FetchServiceRequest) => {
+  try {
+    await checkAppToken(request.appToken);
+
+    const { service, serviceRoutes } = findService(request);
+    const route = findRoute(request, service, serviceRoutes);
+    if (route.roles) {
+      checkRoles(request, route);
+    }
+
+    return sendRequest(request, service);
+  } catch (error) {
+    throw error;
+  }
 };
