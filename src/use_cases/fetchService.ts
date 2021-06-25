@@ -13,7 +13,7 @@ const checkAppToken = async (appToken: string) => {
       `http://eatin-ms-application-service:3000/application?token=${appToken}`
     );
   } catch (error) {
-    throw new ServiceError("Application service not available.", 400, []);
+    throw new ServiceError(400, "Application service not available.", []);
   }
 
   if (
