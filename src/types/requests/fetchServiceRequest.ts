@@ -3,6 +3,6 @@ export default interface FetchServiceRequest {
   headers: any;
   body: any;
   method: string;
-  userToken: string | undefined;
+  userToken?: string;
   appToken: string;
 }
