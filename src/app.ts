@@ -18,12 +18,12 @@ app.use(async (req, res) => {
   }
 
   const fetchServiceRequest: FetchServiceRequest = {
-    path: req.path,
+    path: req.originalUrl,
     headers: req.headers,
     body: req.body,
     method: req.method,
     userToken: <string>req.headers.authorization,
-    appToken: <string>req.headers["app-token"]
+    appToken: <string>req.headers["app-token"],
   };
 
   try {

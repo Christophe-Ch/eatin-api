@@ -9,19 +9,23 @@ export default async (request: FetchServiceRequest) => {
   // Check app token
   let result;
   try {
-    result = await axios.get(`http://eatin-ms-application-service:3000/application?token=${request.appToken}`);
-  }
-  catch (error) {
+    result = await axios.get(
+      `http://eatin-ms-application-service:3000/application?token=${request.appToken}`
+    );
+  } catch (error) {
     throw new ServiceError(400, "Application service not available.", []);
   }
 
-  console.log(result.status, result.data);
-  if (result.status != 200 || !Array.isArray(result.data) || result.data.length == 0) {
+  if (
+    result.status != 200 ||
+    !Array.isArray(result.data) ||
+    result.data.length == 0
+  ) {
     throw new NotAuthorizedError();
   }
 
   // Find service
-  const service = request.path.split("/")[2];
+  const service = request.path.split("/")[2].split("?")[0];
   const serviceRoutes = process.env[`SERVICE_CONFIG_${service.toUpperCase()}`];
 
   if (!serviceRoutes) {
@@ -30,14 +34,22 @@ export default async (request: FetchServiceRequest) => {
 
   // Find route
   const routes = <any[]>JSON.parse(serviceRoutes);
-  const route = routes.find(route => route.method == request.method && (new RegExp(`/api/${service}${route.path}/?`)).test(request.path));
+  const route = routes.find(
+    (route) =>
+      route.method == request.method &&
+      new RegExp(`/api/${service}${route.path}/?`).test(request.path)
+  );
 
   if (!route) {
     throw new ServiceNotFoundError();
   }
 
   // Check role if necessary
-  if (route.roles && (!request.userToken || !jwtService.hasRoles(request.userToken.split("Bearer ")[1], route.roles))) {
+  if (
+    route.roles &&
+    (!request.userToken ||
+      !jwtService.hasRoles(request.userToken.split("Bearer ")[1], route.roles))
+  ) {
     throw new NotAuthorizedError();
   }
 
@@ -46,7 +58,9 @@ export default async (request: FetchServiceRequest) => {
   try {
     const requestParams: AxiosRequestConfig = {
       method: <Method>request.method,
-      url: `http://eatin-ms-${service}-service:3000/${request.path.split("/api/")[1]}`
+      url: `http://eatin-ms-${service}-service:3000/${
+        request.path.split("/api/")[1]
+      }`,
     };
 
     if (["POST", "PUT"].indexOf(request.method) != -1) {
@@ -54,8 +68,7 @@ export default async (request: FetchServiceRequest) => {
     }
 
     serviceResult = await axios.request(requestParams);
-  }
-  catch (error) {
+  } catch (error) {
     throw new ServiceError(400, "Service error", error.response.data.errors);
   }
 

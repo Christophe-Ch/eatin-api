@@ -6,5 +6,8 @@ data:
   application: |
     [
       { "path": "", "roles": ["DEV"], "method": "GET" },
-      { "path": "", "roles": ["DEV"], "method": "POST" }
+      { "path": "/[0-9a-z]{24}", "roles": ["DEV"], "method": "GET" },
+      { "path": "", "roles": ["DEV"], "method": "POST" },
+      { "path": "/[0-9a-z]{24}", "roles": ["DEV"], "method": "PUT" },
+      { "path": "/[0-9a-z]{24}", "roles": ["DEV"], "method": "DELETE" }
     ]
