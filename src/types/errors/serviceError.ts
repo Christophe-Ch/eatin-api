@@ -1,6 +1,6 @@
-import FetchError from "./fetchError";
-export default class ServiceError extends FetchError {
-  constructor(code: number, message: string, details: any[]) {
+import BaseError from "./baseError";
+export default class ServiceError extends BaseError {
+  constructor(message: string, code: number, details: any[]) {
     super(code, message, details);
   }
 }

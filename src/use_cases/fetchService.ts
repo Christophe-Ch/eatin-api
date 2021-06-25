@@ -4,6 +4,7 @@ import jwtService from "../utils/services/jwtService";
 import NotAuthorizedError from "../types/errors/notAuthorizedError";
 import axios, { AxiosRequestConfig, Method } from "axios";
 import ServiceError from "../types/errors/serviceError";
+import BaseError from "../types/errors/baseError";
 
 const checkAppToken = async (appToken: string) => {
   let result;
@@ -12,7 +13,7 @@ const checkAppToken = async (appToken: string) => {
       `http://eatin-ms-application-service:3000/application?token=${appToken}`
     );
   } catch (error) {
-    throw new ServiceError(400, "Application service not available.", []);
+    throw new ServiceError("Application service not available.", 400, []);
   }
 
   if (
@@ -86,7 +87,11 @@ const sendRequest = async (
 
     serviceResult = await axios.request(requestParams);
   } catch (error) {
-    throw new ServiceError(400, "Service error", error.response.data.errors);
+    throw new ServiceError(
+      error.response.status,
+      error.response.statusText,
+      error.response.data
+    );
   }
 
   return serviceResult.data;
@@ -98,8 +103,6 @@ export default async (request: FetchServiceRequest) => {
 
     const { service, serviceRoutes } = findService(request);
     const route = findRoute(request, service, serviceRoutes);
-
-    console.log(route);
 
     let user;
     if (!route.anonymous) {
@@ -120,6 +123,6 @@ export default async (request: FetchServiceRequest) => {
 
     return sendRequest(request, service, user);
   } catch (error) {
-    throw error;
+    throw BaseError.fromError(error);
   }
 };
