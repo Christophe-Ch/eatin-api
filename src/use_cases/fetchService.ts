@@ -55,16 +55,17 @@ const findRoute = (
   return route;
 };
 
-const checkRoles = (request: FetchServiceRequest, route: any) => {
-  if (
-    !request.userToken ||
-    !jwtService.hasRoles(request.userToken.split("Bearer ")[1], route.roles)
-  ) {
+const checkRoles = (route: any, payload: any) => {
+  if (!payload.role || route.roles.indexOf(payload.role) == -1) {
     throw new NotAuthorizedError();
   }
 };
 
-const sendRequest = async (request: FetchServiceRequest, service: string) => {
+const sendRequest = async (
+  request: FetchServiceRequest,
+  service: string,
+  user: any
+) => {
   let serviceResult;
   try {
     const requestParams: AxiosRequestConfig = {
@@ -72,6 +73,9 @@ const sendRequest = async (request: FetchServiceRequest, service: string) => {
       url: `http://eatin-ms-${service}-service:3000/${
         request.path.split("/api/")[1]
       }`,
+      headers: {
+        user: JSON.stringify(user),
+      },
     };
 
     if (["POST", "PUT"].indexOf(request.method) != -1) {
@@ -90,13 +94,22 @@ export default async (request: FetchServiceRequest) => {
   try {
     await checkAppToken(request.appToken);
 
+    let user;
+    if (request.userToken) {
+      try {
+        user = jwtService.verifyAndRead(request.userToken);
+      } catch (err) {
+        throw new NotAuthorizedError();
+      }
+    }
+
     const { service, serviceRoutes } = findService(request);
     const route = findRoute(request, service, serviceRoutes);
     if (route.roles) {
-      checkRoles(request, route);
+      checkRoles(route, user);
     }
 
-    return sendRequest(request, service);
+    return sendRequest(request, service, user);
   } catch (error) {
     throw error;
   }

@@ -22,7 +22,7 @@ app.use(async (req, res) => {
     headers: req.headers,
     body: req.body,
     method: req.method,
-    userToken: <string>req.headers.authorization,
+    userToken: req.headers.authorization?.split("Bearer ")[1],
     appToken: <string>req.headers["app-token"],
   };
 
