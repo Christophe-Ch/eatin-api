@@ -1,5 +1,5 @@
-import FetchError from "./fetchError";
-export default class ServiceNotFoundError extends FetchError {
+import BaseError from "./baseError";
+export default class ServiceNotFoundError extends BaseError {
   constructor() {
     super(404, "Service not found.", []);
   }
