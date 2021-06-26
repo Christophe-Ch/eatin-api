@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eatin-api-deployment
+  labels:
+    app: eatin-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eatin-api
+  template:
+    metadata:
+      labels:
+        app: eatin-api
+    spec:
+      containers:
+        - name: eatin-api
+          image: eatin-api
+          ports:
+            - containerPort: 3000
+          env:
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: api-secret
+                  key: jwt-secret
+            - name: SERVICE_CONFIG_APPLICATION
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: application
+            - name: SERVICE_CONFIG_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: profile
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eatin-api-service
+spec:
+  selector:
+    app: eatin-api
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000
