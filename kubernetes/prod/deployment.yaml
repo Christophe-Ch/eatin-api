@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: eatin-api
-          image: eatin-api
+          image: eatin.azurecr.io/eatin-api
           ports:
             - containerPort: 3000
           env:
