@@ -22,6 +22,6 @@ jobs:
       - name: Connect to ACR
         uses: azure/docker-login@v1
         with:
-          login-servicer: ${{ env.REGISTRY_NAME }}.azurecr.io
+          login-service: ${{ env.REGISTRY_NAME }}.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
