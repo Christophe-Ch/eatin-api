@@ -1,0 +1,23 @@
+name: Deploy to AKS
+on:
+  push:
+    branches:
+      - cicd
+# env:
+#   REGISTRY_NAME: mytestregistrykube
+#   APP_NAME: kubetest
+#   CLUSTER_NAME: kubetestcluster
+#   CLUSTER_RESOURCE_GROUP: kubetest
+#   SECRET: k8s-pull-secret
+jobs:
+  Deploy-To-AKS:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout API with microservices
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          submodules: recursive
+
+      - name: List microservices
+        run: tree ${{ github.workspace }}/services
