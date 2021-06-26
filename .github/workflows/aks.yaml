@@ -46,5 +46,10 @@ jobs:
       - name: Deploy to AKS
         uses: azure/k8s-deploy@v1
         with:
-          manifests: ./kubernetes/prod/
+          manifests: |
+            ./kubernetes/prod/api-secret.yaml
+            ./kubernetes/prod/db-secret.yaml
+            ./kubernetes/prod/configmap.yaml
+            ./kubernetes/prod/db-deployment.yaml
+            ./kubernetes/prod/deployment.yaml
           images: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
