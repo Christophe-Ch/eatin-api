@@ -5,7 +5,7 @@ on:
       - cicd
 env:
   REGISTRY_NAME: eatin
-#   APP_NAME: kubetest
+  APP_NAME: eatin
 #   CLUSTER_NAME: kubetestcluster
 #   CLUSTER_RESOURCE_GROUP: kubetest
 #   SECRET: k8s-pull-secret
@@ -25,3 +25,8 @@ jobs:
           login-server: ${{ env.REGISTRY_NAME }}.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build gateway image and push to registry
+        run: |
+          docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}-api-gateway:${{ github.sha }}
+          docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}-api-gateway:${{ github.sha }}
