@@ -2,7 +2,7 @@ name: Deploy to AKS
 on:
   push:
     branches:
-      - cicd
+      - main
 env:
   REGISTRY_NAME: eatin
   APP_NAME: eatin-api
