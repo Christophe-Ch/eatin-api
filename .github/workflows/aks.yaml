@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - cicd
-# env:
-#   REGISTRY_NAME: mytestregistrykube
+env:
+  REGISTRY_NAME: eatin
 #   APP_NAME: kubetest
 #   CLUSTER_NAME: kubetestcluster
 #   CLUSTER_RESOURCE_GROUP: kubetest
@@ -19,5 +19,9 @@ jobs:
           token: ${{ secrets.PAT }}
           submodules: recursive
 
-      - name: List microservices
-        run: tree ${{ github.workspace }}/services
+      - name: Connect to ACR
+        uses: azure/docker-login@v1
+        with:
+          login-servicer: ${{ env.REGISTRY_NAME }}.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
