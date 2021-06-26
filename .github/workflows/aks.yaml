@@ -5,7 +5,7 @@ on:
       - cicd
 env:
   REGISTRY_NAME: eatin
-  APP_NAME: eatin-api-gateway
+  APP_NAME: eatin-api
   CLUSTER_NAME: eatin
   CLUSTER_RESOURCE_GROUP: eatin
   SECRET: eatin-pull-secret
