@@ -6,18 +6,15 @@ on:
 env:
   REGISTRY_NAME: eatin
   APP_NAME: eatin
-#   CLUSTER_NAME: kubetestcluster
-#   CLUSTER_RESOURCE_GROUP: kubetest
-#   SECRET: k8s-pull-secret
+  CLUSTER_NAME: eatin
+  CLUSTER_RESOURCE_GROUP: eatin
+  SECRET: eatin-pull-secret
 jobs:
   Deploy-To-AKS:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout API with microservices
+      - name: Checkout API
         uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PAT }}
-          submodules: recursive
 
       - name: Connect to ACR
         uses: azure/docker-login@v1
@@ -30,3 +27,19 @@ jobs:
         run: |
           docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}-api-gateway:${{ github.sha }}
           docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}-api-gateway:${{ github.sha }}
+
+      - name: Set target AKS cluster
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          cluster-name: ${{ env.CLUSTER_NAME }}
+          resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+
+      - name: Create image pull secret
+        uses: azure/k8s-create-secret@v1
+        with:
+          container-registry-url: ${{ env.REGISTRY_NAME }}.azurecr.io
+          container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          secret-name: ${{ env.SECRET }}
+          force: true
