@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-configmap
+data:
+  application: |
+    [
+      { "path": "", "roles": ["DEV"], "method": "GET" },
+      { "path": "/[0-9a-z]+", "roles": ["DEV"], "method": "GET" },
+      { "path": "", "roles": ["DEV"], "method": "POST" },
+      { "path": "/[0-9a-z]+", "roles": ["DEV"], "method": "PUT" },
+      { "path": "/[0-9a-z]+", "roles": ["DEV"], "method": "DELETE" }
+    ]
+  profile: |
+    [
+      { "path": "", "method": "POST" },
+      { "path": "", "method": "GET" },
+      { "path": "/[0-9a-z]{24}", "method": "GET" },
+      { "path": "/[0-9a-z]{24}", "method": "PUT" },
+      { "path": "/[0-9a-z]{24}", "method": "DELETE" }
+    ]

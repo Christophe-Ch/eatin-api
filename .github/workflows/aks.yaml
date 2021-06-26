@@ -1,0 +1,55 @@
+name: Deploy to AKS
+on:
+  push:
+    branches:
+      - main
+env:
+  REGISTRY_NAME: eatin
+  APP_NAME: eatin-api
+  CLUSTER_NAME: eatin
+  CLUSTER_RESOURCE_GROUP: eatin
+  SECRET: eatin-pull-secret
+jobs:
+  Deploy-To-AKS:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout API
+        uses: actions/checkout@v2
+
+      - name: Connect to ACR
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.REGISTRY_NAME }}.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build gateway image and push to registry
+        run: |
+          docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
+          docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
+
+      - name: Set target AKS cluster
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          cluster-name: ${{ env.CLUSTER_NAME }}
+          resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+
+      - name: Create image pull secret
+        uses: azure/k8s-create-secret@v1
+        with:
+          container-registry-url: ${{ env.REGISTRY_NAME }}.azurecr.io
+          container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          secret-name: ${{ env.SECRET }}
+
+      - name: Deploy to AKS
+        uses: azure/k8s-deploy@v1
+        with:
+          manifests: |
+            ./kubernetes/prod/api-secret.yaml
+            ./kubernetes/prod/db-secret.yaml
+            ./kubernetes/prod/configmap.yaml
+            ./kubernetes/prod/db-deployment.yaml
+            ./kubernetes/prod/deployment.yaml
+          images: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
