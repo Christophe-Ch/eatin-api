@@ -31,6 +31,11 @@ spec:
                 configMapKeyRef:
                   name: api-configmap
                   key: application
+            - name: SERVICE_CONFIG_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: profile
 
 ---
 apiVersion: v1
