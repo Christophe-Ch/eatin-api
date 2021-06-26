@@ -5,6 +5,7 @@ import NotAuthorizedError from "../types/errors/notAuthorizedError";
 import axios, { AxiosRequestConfig, Method } from "axios";
 import ServiceError from "../types/errors/serviceError";
 import BaseError from "../types/errors/baseError";
+import RouteNotFoundOrInvalid from "../types/errors/routeNotFoundOrInvalid";
 
 const checkAppToken = async (appToken: string) => {
   let result;
@@ -49,7 +50,7 @@ const findRoute = (
   );
 
   if (!route) {
-    throw new ServiceNotFoundError();
+    throw new RouteNotFoundOrInvalid();
   }
 
   return route;

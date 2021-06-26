@@ -1,3 +1,6 @@
 [submodule "services/eatin-ms-application"]
 	path = services/eatin-ms-application
 	url = https://github.com/ninijule/eatin-ms-application
+[submodule "services/eatin-ms-profile"]
+	path = services/eatin-ms-profile
+	url = git@github.com:ninijule/eatin-ms-profile.git
