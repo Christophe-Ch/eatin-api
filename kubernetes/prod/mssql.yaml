@@ -50,13 +50,13 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: mssql-password
-      #     volumeMounts:
-      #       - name: mssqldb
-      #         mountPath: /var/opt/mssql
-      # volumes:
-      #   - name: mssqldb
-      #     persistentVolumeClaim:
-      #       claimName: mssql-data
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+      volumes:
+        - name: mssqldb
+          persistentVolumeClaim:
+            claimName: mssql-data
 ---
 apiVersion: v1
 kind: Service
