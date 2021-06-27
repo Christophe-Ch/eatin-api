@@ -4,7 +4,7 @@ on:
     branches:
       - main
       - cicd
-      - storage
+      - develop
 env:
   REGISTRY_NAME: eatin
   APP_NAME: eatin-api
