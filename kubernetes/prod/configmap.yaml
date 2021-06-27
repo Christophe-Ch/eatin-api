@@ -13,11 +13,9 @@ data:
     ]
   profile: |
     [
-      { "path": "", "method": "POST" },
       { "path": "", "method": "GET" },
       { "path": "/[0-9a-z]{24}", "method": "GET" },
-      { "path": "/[0-9a-z]{24}", "method": "PUT" },
-      { "path": "/[0-9a-z]{24}", "method": "DELETE" }
+      { "path": "/[0-9a-z]{24}", "method": "PUT" }
     ]
   auth: |
     [
@@ -25,6 +23,11 @@ data:
       { "path": "/register", "method": "POST", "anonymous": true },
       { "path": "/refresh", "method": "POST", "anonymous": true }
     ]
+  log: |
+    [
+      { "path": "", "method": "GET", "roles": ["TEC"] }
+    ]
+
   restaurant: |
     [
       { "path": "", "method": "GET" },

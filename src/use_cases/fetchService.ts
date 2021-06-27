@@ -101,31 +101,27 @@ const sendRequest = async (
 };
 
 export default async (request: FetchServiceRequest) => {
-  try {
-    await checkAppToken(request.appToken);
+  await checkAppToken(request.appToken);
 
-    const { service, serviceRoutes } = findService(request);
-    const route = findRoute(request, service, serviceRoutes);
+  const { service, serviceRoutes } = findService(request);
+  const route = findRoute(request, service, serviceRoutes);
 
-    let user;
-    if (!route.anonymous) {
-      if (request.userToken) {
-        try {
-          user = jwtService.verifyAndRead(request.userToken);
-        } catch (err) {
-          throw new NotAuthorizedError();
-        }
-      } else {
+  let user;
+  if (!route.anonymous) {
+    if (request.userToken) {
+      try {
+        user = jwtService.verifyAndRead(request.userToken);
+      } catch (err) {
         throw new NotAuthorizedError();
       }
-
-      if (route.roles) {
-        checkRoles(route, user);
-      }
+    } else {
+      throw new NotAuthorizedError();
     }
 
-    return sendRequest(request, service, user);
-  } catch (error) {
-    throw BaseError.fromError(error);
+    if (route.roles) {
+      checkRoles(route, user);
+    }
   }
+
+  return sendRequest(request, service, user);
 };
