@@ -46,7 +46,9 @@ const findRoute = (
   const route = routes.find(
     (route) =>
       route.method == request.method &&
-      new RegExp(`/api/${service}${route.path}/?$`).test(request.path)
+      new RegExp(`/api/${service}${route.path}/?$`).test(
+        request.path.split("?")[0]
+      )
   );
 
   if (!route) {

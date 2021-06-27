@@ -19,3 +19,7 @@ data:
       { "path": "/[0-9a-z]{24}", "method": "PUT" },
       { "path": "/[0-9a-z]{24}", "method": "DELETE" }
     ]
+  auth: |
+    [
+      { "path": "/login", "method": "POST", "anonymous": true }
+    ]
