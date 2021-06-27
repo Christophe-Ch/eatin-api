@@ -90,7 +90,7 @@ const sendRequest = async (
 
     serviceResult = await axios.request(requestParams);
   } catch (error) {
-    throw new ServiceError(400, error.response.statusText, error.response.data);
+    throw new ServiceError(400, error.toString(), []);
   }
 
   return serviceResult.data;
