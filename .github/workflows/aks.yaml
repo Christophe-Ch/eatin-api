@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+      - cicd
+      - storage
 env:
   REGISTRY_NAME: eatin
   APP_NAME: eatin-api
@@ -52,4 +54,5 @@ jobs:
             ./kubernetes/prod/configmap.yaml
             ./kubernetes/prod/db-deployment.yaml
             ./kubernetes/prod/deployment.yaml
+            ./kubernetes/prod/mssql.yaml
           images: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}

@@ -33,7 +33,10 @@ app.use(async (req, res, next) => {
   }
 });
 
-app.use((err: any, req: any, res: any, next: any) => {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  if (!(err instanceof BaseError)) {
+    err = BaseError.fromError(err);
+  }
   return res.status(err.code).send({
     message: err.message,
     details: err.details,
