@@ -7,3 +7,6 @@
 [submodule "services/eatin-ms-auth"]
 	path = services/eatin-ms-auth
 	url = https://github.com/Christophe-Ch/eatin-ms-auth
+[submodule "services/eatin-ms-restaurant"]
+	path = services/eatin-ms-restaurant
+	url = https://github.com/ninijule/eatin-ms-restaurant
