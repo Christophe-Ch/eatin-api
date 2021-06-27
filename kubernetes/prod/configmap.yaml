@@ -21,5 +21,7 @@ data:
     ]
   auth: |
     [
-      { "path": "/login", "method": "POST", "anonymous": true }
+      { "path": "/login", "method": "POST", "anonymous": true },
+      { "path": "/register", "method": "POST", "anonymous": true },
+      { "path": "/refresh", "method": "POST", "anonymous": true }
     ]
