@@ -41,6 +41,11 @@ spec:
                 configMapKeyRef:
                   name: api-configmap
                   key: auth
+            - name: SERVICE_CONFIG_LOG
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: log
             - name: SERVICE_CONFIG_RESTAURANT
               valueFrom:
                 configMapKeyRef:

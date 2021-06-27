@@ -23,6 +23,10 @@ data:
       { "path": "/register", "method": "POST", "anonymous": true },
       { "path": "/refresh", "method": "POST", "anonymous": true }
     ]
+  log: |
+    [
+      { "path": "", "method": "GET", "roles": ["TEC"] }
+    ]
   restaurant: |
     [
       { "path": "", "method": "GET" },
