@@ -10,3 +10,9 @@
 [submodule "services/eatin-ms-restaurant"]
 	path = services/eatin-ms-restaurant
 	url = https://github.com/ninijule/eatin-ms-restaurant
+[submodule "services/eatin-ms-log"]
+	path = services/eatin-ms-log
+	url = https://github.com/Christophe-Ch/eatin-ms-log
+[submodule "services/eatin-ms-realtime"]
+	path = services/eatin-ms-realtime
+	url = https://github.com/Christophe-Ch/eatin-ms-realtime
