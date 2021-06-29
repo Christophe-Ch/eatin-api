@@ -51,6 +51,11 @@ spec:
                 configMapKeyRef:
                   name: api-configmap
                   key: restaurant
+            - name: SERVICE_CONFIG_ORDER
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: order
 
 ---
 apiVersion: v1
