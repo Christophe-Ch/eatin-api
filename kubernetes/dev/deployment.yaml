@@ -56,6 +56,11 @@ spec:
                 configMapKeyRef:
                   name: api-configmap
                   key: order
+            - name: SERVICE_CONFIG_DELIVERY
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: delivery
 
 ---
 apiVersion: v1

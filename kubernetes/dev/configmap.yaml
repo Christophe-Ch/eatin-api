@@ -61,3 +61,9 @@ data:
       { "path": "/[0-9a-z]{24}", "roles": ["RES"], "method": "PUT" },
       { "path": "/[0-9a-z]{24}", "roles": ["USR", "RES"], "method": "DELETE" }
     ]
+  delivery: |
+    [
+      { "path": "", "roles": ["DEL"], "method": "GET" },
+      { "path": "/[0-9a-z]{24}", "roles": ["USR", "DEL", "RES"], "method": "GET" },
+      { "path": "/[0-9a-z]{24}", "roles": ["DEL"], "method": "PUT" }
+    ]
