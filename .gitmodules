@@ -19,3 +19,6 @@
 [submodule "services/eatin-ms-order"]
 	path = services/eatin-ms-order
 	url = https://github.com/ninijule/eatin-ms-order
+[submodule "services/eatin-ms-delivery"]
+	path = services/eatin-ms-delivery
+	url = https://github.com/Christophe-Ch/eatin-ms-delivery
