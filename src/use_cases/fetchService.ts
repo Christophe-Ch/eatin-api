@@ -6,6 +6,7 @@ import axios, { AxiosRequestConfig, Method } from "axios";
 import ServiceError from "../types/errors/serviceError";
 import BaseError from "../types/errors/baseError";
 import RouteNotFoundOrInvalid from "../types/errors/routeNotFoundOrInvalid";
+import NotConnectedError from "../types/errors/notConnectedError";
 
 const checkAppToken = async (appToken: string) => {
   let result;
@@ -112,10 +113,10 @@ export default async (request: FetchServiceRequest) => {
       try {
         user = jwtService.verifyAndRead(request.userToken);
       } catch (err) {
-        throw new NotAuthorizedError();
+        throw new NotConnectedError();
       }
     } else {
-      throw new NotAuthorizedError();
+      throw new NotConnectedError();
     }
 
     if (route.roles) {
