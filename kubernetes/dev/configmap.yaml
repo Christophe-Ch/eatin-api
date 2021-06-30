@@ -21,7 +21,9 @@ data:
     [
       { "path": "/login", "method": "POST", "anonymous": true },
       { "path": "/register", "method": "POST", "anonymous": true },
-      { "path": "/refresh", "method": "POST", "anonymous": true }
+      { "path": "/refresh", "method": "POST", "anonymous": true },
+      { "path": "/user", "roles": ["TEC"], "method": "GET"},
+      { "path": "/user/[0-9]+", "roles": ["TEC"], "method": "PUT"}
     ]
   log: |
     [
