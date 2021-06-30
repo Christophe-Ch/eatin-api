@@ -65,6 +65,11 @@ spec:
                 configMapKeyRef:
                   name: api-configmap
                   key: notification
+            - name: SERVICE_CONFIG_STATISTIC
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: statistic
 
 ---
 apiVersion: v1

@@ -25,3 +25,6 @@
 [submodule "services/eatin-ms-notification"]
 	path = services/eatin-ms-notification
 	url = https://github.com/ninijule/eatin-ms-notification/
+[submodule "services/eatin-ms-statistic"]
+	path = services/eatin-ms-statistic
+	url = https://github.com/ninijule/eatin-ms-statistic
