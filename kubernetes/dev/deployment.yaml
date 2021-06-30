@@ -61,6 +61,11 @@ spec:
                 configMapKeyRef:
                   name: api-configmap
                   key: delivery
+            - name: SERVICE_CONFIG_NOTIFICATION
+              valueFrom:
+                configMapKeyRef:
+                  name: api-configmap
+                  key: notification
 
 ---
 apiVersion: v1

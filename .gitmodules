@@ -22,3 +22,6 @@
 [submodule "services/eatin-ms-delivery"]
 	path = services/eatin-ms-delivery
 	url = https://github.com/Christophe-Ch/eatin-ms-delivery
+[submodule "services/eatin-ms-notification"]
+	path = services/eatin-ms-notification
+	url = https://github.com/ninijule/eatin-ms-notification/
