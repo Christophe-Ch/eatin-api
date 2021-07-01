@@ -15,7 +15,7 @@ data:
     [
       { "path": "", "method": "GET" },
       { "path": "/[0-9a-z]{24}", "method": "GET" },
-      { "path": "/[0-9a-z]{24}", "method": "PUT" }
+      { "path": "", "method": "PUT" }
     ]
   auth: |
     [
