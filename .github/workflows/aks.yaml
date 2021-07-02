@@ -8,7 +8,7 @@ on:
 env:
   REGISTRY_NAME: eatin
   APP_NAME: eatin-api
-  CLUSTER_NAME: eatin
+  CLUSTER_NAME: eatin-cluster
   CLUSTER_RESOURCE_GROUP: eatin
   SECRET: eatin-pull-secret
 jobs:
